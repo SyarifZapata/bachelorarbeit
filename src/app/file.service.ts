@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
-import {promise} from 'selenium-webdriver';
-import {stringify} from 'querystring';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
   private ipc: IpcRenderer;
+  // private client;
 
   constructor() {
     if ((<any>window).require) {
       try {
         this.ipc = (<any>window).require('electron').ipcRenderer;
+        // this.client = (<any>window).require('electron').remote.require('ssb-client');
       } catch (e) {
         throw e;
       }

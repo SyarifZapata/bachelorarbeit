@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FileService} from './file.service';
+import {Remote, IpcRenderer} from 'electron';
+
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,13 @@ import {FileService} from './file.service';
 export class AppComponent implements OnInit{
   title = 'ssb-electron';
   text: string;
+
+
   constructor(private _fileService: FileService){
 
   }
 
   ngOnInit(){
-    this._fileService.getFiles().then((result) => {
-      console.log(result);
-      this.text = result.toString();
-    });
   }
 
 }
