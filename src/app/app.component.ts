@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FileService} from './file.service';
 import {Remote, IpcRenderer} from 'electron';
+import {ServerService} from './server.service';
 
 
 @Component({
@@ -13,8 +14,11 @@ export class AppComponent implements OnInit{
   text: string;
 
 
-  constructor(private _fileService: FileService){
-
+  constructor(private _fileService: FileService, private _serverService: ServerService){
+    this._serverService.startServer().then((message)=>{
+      console.log(message);
+      this.text = <string>message.toString();
+    });
   }
 
   ngOnInit(){
