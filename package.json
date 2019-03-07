@@ -39,6 +39,7 @@
     "pull-stream": "^3.6.9",
     "rxjs": "~6.3.3",
     "secret-handshake": "^1.1.16",
+    "secret-stack": "^6.0.1",
     "ssb-about": "^2.0.0",
     "ssb-backlinks": "^0.7.3",
     "ssb-config": "^3.2.3",

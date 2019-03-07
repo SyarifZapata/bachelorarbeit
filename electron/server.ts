@@ -2,46 +2,56 @@ import * as fs from "fs";
 import * as path from "path";
 
 const homedir = require('os').homedir();
-// const Server = require('ssb-server');
-// const config = require('ssb-config');
 const ssbkeys = require('ssb-keys');
 const createStream = require('broadcast-stream');
-const SHS = require('secret-handshake');
+//const SHS = require('secret-handshake');
+const Config = require('ssb-config/inject');
 const cl = require('chloride');
+const SecretStack = require('secret-stack');
 
 
 
 const keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 const stream = createStream(8008);
 
-function check(id) {
-  console.log(id);
-}
+// function check(id) {
+//   console.log(id);
+// }
 
-function authorize(id, cb){
-  cb(null, check(id));
-}
+// function authorize(id, cb){
+//   cb(null, check(id));
+// }
 
 const testkey = cl.crypto_sign_keypair();
 
 const syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=', 'base64');
 const appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=', 'base64');
 
-const ServerStream = SHS.createServer(keys, authorize, appKey);
-const ClientStream = SHS.createClient(keys, appKey);
-
-const my_stream = ServerStream((err, serverStream)=>{
-  console.log(serverStream);
+const createApp = SecretStack({
+  appKey: appKey
 });
+
+const config = Config('syarif-ssb', {port: 9898});
+
+const node = createApp(config);
+
+console.log(node.getAddress());
+
+// const ServerStream = SHS.createServer(keys, authorize, appKey);
+// const ClientStream = SHS.createClient(keys, appKey);
+
+// const my_stream = ServerStream((err, serverStream)=>{
+//   console.log(serverStream);
+// });
 
 
 
 stream.on('data', function (msg) {
-  console.log(msg.address,':', msg.port, msg.toString());
+  console.log(msg.toString());
 });
 
 setInterval(function () {
-  stream.write(Buffer.from(JSON.stringify(keys.id), 'utf8'));
+  stream.write(Buffer.from(JSON.stringify(node.getAddress()), 'utf8'));
 }, 2000);
 
 
