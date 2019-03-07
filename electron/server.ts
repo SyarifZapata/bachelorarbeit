@@ -10,7 +10,7 @@ const cl = require('chloride');
 const SecretStack = require('secret-stack');
 
 
-
+const main_address = 'net:localhost:9898~shs:/na0uX/HrCF5ylJRO0hKN4yMb8+oBNdoiDfLpJTX4fU=';
 const keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 const stream = createStream(8008);
 

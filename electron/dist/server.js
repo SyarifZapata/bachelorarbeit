@@ -23,17 +23,17 @@ var createApp = SecretStack({
 });
 var config = Config('syarif-ssb', { port: 9898 });
 var node = createApp(config);
-console.log(typeof node.getAddress());
+console.log(node.getAddress());
 // const ServerStream = SHS.createServer(keys, authorize, appKey);
 // const ClientStream = SHS.createClient(keys, appKey);
 // const my_stream = ServerStream((err, serverStream)=>{
 //   console.log(serverStream);
 // });
 stream.on('data', function (msg) {
-    console.log(msg.address, ':', msg.port, msg.toString());
+    console.log(msg.toString());
 });
 setInterval(function () {
-    stream.write(Buffer.from(JSON.stringify(keys.id), 'utf8'));
+    stream.write(Buffer.from(JSON.stringify(node.getAddress()), 'utf8'));
 }, 2000);
 // Server.use(require('ssb-server/plugins/master'))
 //   .use(require('ssb-gossip'))
