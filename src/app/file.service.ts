@@ -21,14 +21,14 @@ export class FileService {
     }
   }
 
-  async getFiles() {
-    return new Promise<string[]>((resolve, reject) => {
+  async getPosts() {
+    return new Promise((resolve, reject) => {
       // subscribe once and return the argument if data is commin. unsubscribe when finished.
-      this.ipc.once('getFilesResponse', (event, arg) => {
+      this.ipc.once('getPostsResponse', (event, arg) => {
         resolve(arg);
       });
       // send the getfile request. this is a kind of RPC call.
-      this.ipc.send('getFiles');
+      this.ipc.send('getPosts');
     });
   }
 

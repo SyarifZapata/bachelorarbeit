@@ -1,0 +1,12 @@
+<div *ngFor="let feed of feeds" class="card">
+  <div class="card-content black-text">
+    <span class="userName" style="font-size: 120%">{{feed.name}}</span>
+    <p class="userId grey-text" style="margin-top: 0; word-break: break-word">id: {{feed.key}}</p>
+    <p class="postingTime grey-text" style="margin-bottom: 10px">posted {{feed.timestamp}}</p>
+    <p style="white-space: pre-wrap">{{feed.text}}</p>
+  </div>
+  <div class="card-action">
+    <a href="#">Like</a>
+    <a href="#">Replay</a>
+  </div>
+</div>
