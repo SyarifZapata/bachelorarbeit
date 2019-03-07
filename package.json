@@ -26,6 +26,7 @@
     "broadcast-stream": "^0.2.2",
     "chess.js": "^0.10.2",
     "chessboardjs": "0.0.1",
+    "chloride": "^2.2.10",
     "core-js": "^2.5.4",
     "cross-script": "^1.0.5",
     "flumecodec": "0.0.1",

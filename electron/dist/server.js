@@ -6,6 +6,7 @@ var homedir = require('os').homedir();
 var ssbkeys = require('ssb-keys');
 var createStream = require('broadcast-stream');
 var SHS = require('secret-handshake');
+var cl = require('chloride');
 var keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 var stream = createStream(8008);
 function check(id) {
@@ -14,7 +15,12 @@ function check(id) {
 function authorize(id, cb) {
     cb(null, check(id));
 }
-var ServerStream = SHS.createServer(keys, authorize, Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs='));
+var testkey = cl.crypto_sign_keypair();
+console.log(testkey.publicKey.toString('base64'));
+var syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=.ed25519');
+var appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=');
+var ServerStream = SHS.createServer(keys, authorize, appKey);
+var ClientStream = SHS.createClient(keys, appKey);
 var my_stream = ServerStream(function (err, serverStream) {
     console.log(serverStream);
 });
