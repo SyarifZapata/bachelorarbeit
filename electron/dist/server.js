@@ -7,6 +7,7 @@ var createStream = require('broadcast-stream');
 var Config = require('ssb-config/inject');
 var cl = require('chloride');
 var SecretStack = require('secret-stack');
+var main_address = 'net:localhost:9898~shs:/na0uX/HrCF5ylJRO0hKN4yMb8+oBNdoiDfLpJTX4fU=';
 var keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 var stream = createStream(8008);
 // function check(id) {
@@ -30,7 +31,7 @@ console.log(node.getAddress());
 //   console.log(serverStream);
 // });
 stream.on('data', function (msg) {
-    console.log(msg.toString());
+    console.log(msg.address, msg.toString());
 });
 setInterval(function () {
     stream.write(Buffer.from(JSON.stringify(node.getAddress()), 'utf8'));

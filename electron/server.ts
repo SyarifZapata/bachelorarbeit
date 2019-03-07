@@ -47,7 +47,7 @@ console.log(node.getAddress());
 
 
 stream.on('data', function (msg) {
-  console.log(msg.toString());
+  console.log(msg.address, msg.toString());
 });
 
 setInterval(function () {
