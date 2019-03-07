@@ -4,6 +4,7 @@ const pull = require('pull-stream');
 const Client = require('ssb-client');
 const ssbkeys = require('ssb-keys');
 const ref = require('ssb-ref');
+const crypto = require('crypto');
 
 const keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 
@@ -48,32 +49,36 @@ function map (msg) {
   }
 }
 
-Client(function (err, server) {
-  if (err) {
-    throw err;
-  }
+// Client(function (err, server) {
+//   if (err) {
+//     throw err;
+//   }
+//
+//   pull(server.createHistoryStream({id:keys.id}), pull.collect((error, msgs) => {
+//     result = {};
+//     msgs.forEach((msg)=>{
+//       if(msg.value.content.type === 'about'){
+//         console.log(JSON.stringify(reduce(result,map(msg))))
+//       }
+//     })
+//   }));
+//
+//   // pull(server.createFeedStream(), pull.collect((error, msgs) => {
+//   //   // msgs.forEach((msg)=>{
+//   //   //   if(msg.value.content.type === 'post'){
+//   //   //     console.log(msg.value.content.text);
+//   //   //   }
+//   //   //
+//   //   // })
+//   //   msgs.forEach((msg)=> {
+//   //     if (msg.value.content.type === 'about') {
+//   //       console.log(JSON.stringify(reduce(result, map(msg))))
+//   //     }
+//   //   })
+//   //
+//   // }));
+// });
 
-  pull(server.createHistoryStream({id:keys.id}), pull.collect((error, msgs) => {
-    result = {};
-    msgs.forEach((msg)=>{
-      if(msg.value.content.type === 'about'){
-        console.log(JSON.stringify(reduce(result,map(msg))))
-      }
-    })
-  }));
+console.log(crypto.randomBytes(32).toString('base64'));
 
-  // pull(server.createFeedStream(), pull.collect((error, msgs) => {
-  //   // msgs.forEach((msg)=>{
-  //   //   if(msg.value.content.type === 'post'){
-  //   //     console.log(msg.value.content.text);
-  //   //   }
-  //   //
-  //   // })
-  //   msgs.forEach((msg)=> {
-  //     if (msg.value.content.type === 'about') {
-  //       console.log(JSON.stringify(reduce(result, map(msg))))
-  //     }
-  //   })
-  //
-  // }));
-});
+
