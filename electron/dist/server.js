@@ -16,7 +16,6 @@ function authorize(id, cb) {
     cb(null, check(id));
 }
 var testkey = cl.crypto_sign_keypair();
-console.log(testkey.publicKey.toString('base64'));
 var syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=.ed25519');
 var appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=');
 var ServerStream = SHS.createServer(keys, authorize, appKey);

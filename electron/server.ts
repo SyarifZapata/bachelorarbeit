@@ -24,8 +24,8 @@ function authorize(id, cb){
 
 const testkey = cl.crypto_sign_keypair();
 
-const syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=.ed25519');
-const appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=');
+const syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=', 'base64');
+const appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=', 'base64');
 
 const ServerStream = SHS.createServer(keys, authorize, appKey);
 const ClientStream = SHS.createClient(keys, appKey);
