@@ -17,7 +17,6 @@ export class FeedsContainerComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('hallo');
     $(document).ready(function(){
       var board,
         boardEl = $('#board'),

@@ -3,44 +3,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var homedir = require('os').homedir();
 var ssbkeys = require('ssb-keys');
 var createStream = require('broadcast-stream');
-//const SHS = require('secret-handshake');
+var pull = require('pull-stream');
 var Config = require('ssb-config/inject');
 var cl = require('chloride');
 var SecretStack = require('secret-stack');
-var main_address = 'net:localhost:9898~shs:/na0uX/HrCF5ylJRO0hKN4yMb8+oBNdoiDfLpJTX4fU=';
+var SSB = require('ssb-db');
+var _ = require('lodash');
+var main_address = 'net:192.168.0.101:9898~shs:/na0uX/HrCF5ylJRO0hKN4yMb8+oBNdoiDfLpJTX4fU=';
 var keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
-var stream = createStream(8008);
-// function check(id) {
-//   console.log(id);
-// }
-// function authorize(id, cb){
-//   cb(null, check(id));
-// }
+var stream = createStream(8989);
 var testkey = cl.crypto_sign_keypair();
 var syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=', 'base64');
 var appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=', 'base64');
+var ssbAppkey = Buffer.from('1KHLiKZvAvjbY1ziZEHMXawbCEIM6qwjCDm3VYRan/s=', 'base64');
 var createApp = SecretStack({
     appKey: appKey
-});
-var config = Config('syarif-ssb', { port: 9898 });
+}).use(SSB);
+// .use(require('ssb-gossip'))
+// .use(require('ssb-replicate'));
+// .use(require('ssb-friends'));
+var config = Config('syarif-ssb', { port: 8989 });
+// const config = Config('ssb', {port: 8008, keys: keys});
 var node = createApp(config);
-console.log(node.getAddress());
-// const ServerStream = SHS.createServer(keys, authorize, appKey);
-// const ClientStream = SHS.createClient(keys, appKey);
-// const my_stream = ServerStream((err, serverStream)=>{
-//   console.log(serverStream);
-// });
+console.log(node);
+node.publish({ type: 'post', text: 'My First Post!' }, function (err, msg, hash) {
+    console.log(err);
+    console.log(msg);
+    console.log(hash, 'yow yow');
+});
+// pull(node.replicate.upto({live:true}), pull.drain(console.log));
+// setInterval(() =>{
+//   console.log(_.keys(node.peers).length);
+//   console.log(node.progress());
+//
+// }, 400);
+// pull(
+//   node.replicate.upto(), pull.drain((err, msg)=>{
+//     console.log(msg);
+//   })
+// );
 stream.on('data', function (msg) {
     console.log(msg.address, msg.toString());
 });
 setInterval(function () {
     stream.write(Buffer.from(JSON.stringify(node.getAddress()), 'utf8'));
-}, 2000);
-// Server.use(require('ssb-server/plugins/master'))
-//   .use(require('ssb-gossip'))
-//   .use(require('ssb-replicate'))
-//   .use(require('ssb-backlinks'))
-//   .use(require('ssb-about'));
+}, 5000);
 // Thread (Zeitstamp)
 // Zentrales element => weg werfen.
 // Alles was
@@ -54,13 +61,9 @@ var SsbServer = /** @class */ (function () {
     }
     SsbServer.prototype.startServer = function () {
         try {
-            // const server = Server(config);
-            // const manifest = server.getManifest();
-            // fs.writeFileSync(path.join(config.path, 'manifest.json'), JSON.stringify(manifest));
-            //
-            // server.whoami((error, feed) => {
-            //   console.log(feed);
-            // });
+            node.whoami(function (error, feed) {
+                console.log(feed);
+            });
             // return server;
             return 'hallo';
         }
