@@ -12,36 +12,29 @@ var _ = require('lodash');
 var main_address = 'net:192.168.0.101:9898~shs:/na0uX/HrCF5ylJRO0hKN4yMb8+oBNdoiDfLpJTX4fU=';
 var keys = ssbkeys.loadOrCreateSync(homedir + '/.ssb/secret');
 var stream = createStream(8989);
-var testkey = cl.crypto_sign_keypair();
 var syarifKey = Buffer.from('@GIjvY/Wz1maK0lpFZlU57AhOvN2b5ZF0NoTsq+0L/FU=', 'base64');
 var appKey = Buffer.from('pTkVP2tZ9tVFlaC/8q2CcvJ80xTem++Xy5nStcCZNFs=', 'base64');
 var ssbAppkey = Buffer.from('1KHLiKZvAvjbY1ziZEHMXawbCEIM6qwjCDm3VYRan/s=', 'base64');
 var createApp = SecretStack({
-    appKey: appKey
-}).use(SSB);
-// .use(require('ssb-gossip'))
-// .use(require('ssb-replicate'));
-// .use(require('ssb-friends'));
-var config = Config('syarif-ssb', { port: 8989 });
-// const config = Config('ssb', {port: 8008, keys: keys});
+    appKey: ssbAppkey
+}).use(SSB)
+    .use(require('ssb-gossip'))
+    .use(require('ssb-replicate'))
+    .use(require('ssb-friends'));
+// const config = Config('syarif-ssb', {port: 8989});
+var config = Config('syarif-ssb', { port: 8008, keys: keys });
 var node = createApp(config);
-console.log(node);
-node.publish({ type: 'post', text: 'My First Post!' }, function (err, msg, hash) {
-    console.log(err);
-    console.log(msg);
-    console.log(hash, 'yow yow');
-});
+// console.log(node);
+// node.publish({type: 'post', text: 'My First Post!'}, (err, msg) => {
+//   console.log('post published');
+// });
 // pull(node.replicate.upto({live:true}), pull.drain(console.log));
-// setInterval(() =>{
-//   console.log(_.keys(node.peers).length);
-//   console.log(node.progress());
-//
-// }, 400);
-// pull(
-//   node.replicate.upto(), pull.drain((err, msg)=>{
-//     console.log(msg);
-//   })
-// );
+setInterval(function () {
+    console.log(_.keys(node.peers).length);
+}, 400);
+pull(node.replicate.upto(), pull.drain(function (err, msg) {
+    console.log(msg);
+}));
 stream.on('data', function (msg) {
     console.log(msg.address, msg.toString());
 });
