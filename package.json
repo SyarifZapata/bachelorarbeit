@@ -52,6 +52,7 @@
     "ssb-ref": "^2.13.9",
     "ssb-replicate": "^1.0.4",
     "ssb-server": "^14.0.4",
+    "ssb-threads": "^3.4.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

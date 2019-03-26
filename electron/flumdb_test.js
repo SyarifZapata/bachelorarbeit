@@ -42,10 +42,10 @@ function getKey (data) {
 
 var db =  Flume(
   OffsetLog(
-    homedir +'/flumedb_test/LOG',
+    homedir +'/.syarif-ssb/flume/log.offset',
     {blockSize: 1024, codec: require('flumecodec/json')}
-  ))
-  .use('index', require('flumeview-hashtable')(1, hash, getKey));
+  ));
+  // .use('index', require('flumeview-hashtable')(1, hash, getKey));
 
 // db.index.get(2, function (err, value) {
 //   console.log(value)
@@ -67,21 +67,21 @@ var db =  Flume(
 //   i++;
 // }
 
-  db.get(163, (err,val) =>{
-    if(val !== undefined){
-      console.log(val);
-    }
-    if(err){
-      console.log(err)
-    }
+  // db.get(163, (err,val) =>{
+  //   if(val !== undefined){
+  //     console.log(val);
+  //   }
+  //   if(err){
+  //     console.log(err)
+  //   }
+  //
+  // });
 
-  });
 
-
-// db.append({key:'dddf', value: 'Olala'}, function (err,offset) {
-//   if(err) throw err;
-//   console.log(offset);
-// });
+db.append({key:'dddf', value: 'Olala'}, function (err,offset) {
+  if(err) throw err;
+  console.log(offset);
+});
 
 // var i = 0;
 // while(i<=4000){
